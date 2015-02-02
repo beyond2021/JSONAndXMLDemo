@@ -8,8 +8,8 @@
 
 #import "AppDelegate.h"
 
-#warning Set your Geonames username in the kUsername constant.
-NSString *const kUsername = @"YOUR_USERNAME_HERE";
+//#warning Set your Geonames username in the kUsername constant.
+NSString *const kUsername = @"beyond2021";
 
 @implementation AppDelegate
 
@@ -44,6 +44,44 @@ NSString *const kUsername = @"YOUR_USERNAME_HERE";
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
++(void)downloadDataFromURL:(NSURL *)url withCompletionHandler:(void (^)(NSData *))completionHandler{
+    // Instantiate a session configuration object.
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    // Instantiate a session object.
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+    
+    // Create a data task object to perform the data downloading.
+    NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        if (error != nil) {
+            // If any error occurs then just display its description on the console.
+            NSLog(@"%@", [error localizedDescription]);
+        }
+        else{
+            // If no error occurs, check the HTTP status code.
+            NSInteger HTTPStatusCode = [(NSHTTPURLResponse *)response statusCode];
+            
+            // If it's other than 200, then show it on the console.
+            if (HTTPStatusCode != 200) {
+                NSLog(@"HTTP status code = %ld", (long)HTTPStatusCode);
+            }
+            
+            // Call the completion handler with the returned data on the main thread.
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                completionHandler(data);
+                /*
+                 The task runs asynchronously in a background thread, but it’s necessary to call our completion handler on the main thread of the app and not on the thread of the task, so as we ensure that any visual updates after having fetched the data will occur on the proper time. Therefore, we add the completion handler call as an operation to the main thread, using the NSOperationQueue class. If you’re curious about what could happen if we wouldn’t use that operation block, then try to make the completion handler call out of that block after we have the app implemented. You’ll find out that the interface doesn’t get updated properly, and unpredictable delays in the app execution occur.                 */
+                
+                
+            }];
+        }
+    }];
+    
+    // Resume the task.
+    [task resume]; //for making the task start working.
 }
 
 @end

@@ -13,11 +13,11 @@
 
 @interface ViewController ()
 
-@property (nonatomic, strong) NSArray *arrCountries;
+@property (nonatomic, strong) NSArray *arrCountries;// container for the countries
 
-@property (nonatomic, strong) NSArray *arrCountryCodes;
+@property (nonatomic, strong) NSArray *arrCountryCodes;// container for the country codes
 
-@property (nonatomic, strong) NSString *countryCode;
+@property (nonatomic, strong) NSString *countryCode;// container for a country code
 
 @property (nonatomic, strong) NSDictionary *countryDetailsDictionary;
 
@@ -43,13 +43,22 @@
     
     // Load the contents of the two .txt files to the arrays.
     NSString *pathOfCountriesFile = [[NSBundle mainBundle] pathForResource:@"countries" ofType:@"txt"];
+    //the path of the countries
+    
+    
     NSString *pathOfCountryCodesFile = [[NSBundle mainBundle] pathForResource:@"countries_short" ofType:@"txt"];
+    //the path of the country codes
+    
     
     NSString *allCountries = [NSString stringWithContentsOfFile:pathOfCountriesFile encoding:NSUTF8StringEncoding error:nil];
     self.arrCountries = [[NSArray alloc] initWithArray:[allCountries componentsSeparatedByString:@"\n"]];
+    //filling the countries container
+    
+    
     
     NSString *allCountryCodes = [NSString stringWithContentsOfFile:pathOfCountryCodesFile encoding:NSUTF8StringEncoding error:nil];
     self.arrCountryCodes = [[NSArray alloc] initWithArray:[allCountryCodes componentsSeparatedByString:@"\n"]];
+    //filling the country code container
 }
 
 - (void)didReceiveMemoryWarning

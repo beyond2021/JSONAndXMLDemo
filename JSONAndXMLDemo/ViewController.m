@@ -150,6 +150,17 @@ NSString *const kUsername = @"beyond2021";
                 //Next, we get the array and the dictionary of the first index of that array, and we assign it to the countryDetailsDictionary property.
                 self.countryDetailsDictionary = [[returnedDict objectForKey:@"geonames"] objectAtIndex:0];
                 NSLog(@"%@", self.countryDetailsDictionary);
+                
+                // Set the country name to the respective label.
+                self.lblCountry.text = [NSString stringWithFormat:@"%@ (%@)", [self.countryDetailsDictionary objectForKey:@"countryName"], [self.countryDetailsDictionary objectForKey:@"countryCode"]];
+                
+               //Add the next two lines as well, in order to reload the data in the table view and make it appear (initially the table view is hidden):
+                
+                // Reload the table view.
+                [self.tblCountryDetails reloadData];
+                
+                // Show the table view.
+                self.tblCountryDetails.hidden = NO;
             }
             
             
@@ -166,10 +177,18 @@ NSString *const kUsername = @"beyond2021";
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
-}
+  }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 0;
+  //  return 0;
+    /*
+     We want 7 rows to exist in our table view. We’ll use the first six rows to display the data I mentioned above, and in the last row we’ll have a cell that will let us get navigated into a new view controller, where we’ll get the neighbour countries of the selected one.
+     */
+    
+    return 7;
+
+    
+    
 }
 
 
@@ -181,6 +200,42 @@ NSString *const kUsername = @"beyond2021";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
+    switch (indexPath.row) {
+        case 0:
+            cell.detailTextLabel.text = @"Capital";
+            cell.textLabel.text = [self.countryDetailsDictionary objectForKey:@"capital"];
+            break;
+        case 1:
+            cell.detailTextLabel.text = @"Continent";
+            cell.textLabel.text = [self.countryDetailsDictionary objectForKey:@"continentName"];
+            break;
+        case 2:
+            cell.detailTextLabel.text = @"Population";
+            cell.textLabel.text = [self.countryDetailsDictionary objectForKey:@"population"];
+            break;
+        case 3:
+            cell.detailTextLabel.text = @"Area in Square Km";
+            cell.textLabel.text = [self.countryDetailsDictionary objectForKey:@"areaInSqKm"];
+            break;
+        case 4:
+            cell.detailTextLabel.text = @"Currency";
+            cell.textLabel.text = [self.countryDetailsDictionary objectForKey:@"currencyCode"];
+            break;
+        case 5:
+            cell.detailTextLabel.text = @"Languages";
+            cell.textLabel.text = [self.countryDetailsDictionary objectForKey:@"languages"];
+            break;
+        case 6:
+            cell.textLabel.text = @"Neighbour Countries";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            //Pay special attention to the this last case, where we add the cell that will take us to the neighbour countries list. For this cell only, we set the disclosure indicator as the accessory type and the default selection style. That’s because we want it to prompt us to tap it, and to be highlighted when is tapped.
+            
+            break;
+            
+        default:
+            break;
+    }
     
     return cell;
 }

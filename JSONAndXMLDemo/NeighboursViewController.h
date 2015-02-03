@@ -13,5 +13,6 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tblNeighbours;
 
+@property (nonatomic, strong) NSString *geonameID;
 
 @end

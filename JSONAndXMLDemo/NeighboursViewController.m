@@ -11,6 +11,7 @@
 
 @interface NeighboursViewController ()
 
+-(void)downloadNeighbourCountries;
 @end
 
 @implementation NeighboursViewController
@@ -33,6 +34,24 @@
     // Make self the delegate and datasource of the table view.
     self.tblNeighbours.delegate = self;
     self.tblNeighbours.dataSource = self;
+    
+    // Download the neighbour countries data.
+    [self downloadNeighbourCountries];
+}
+
+-(void)downloadNeighbourCountries{
+    // Prepare the URL that we'll get the neighbour countries from.
+    NSString *URLString = [NSString stringWithFormat:@"http://api.geonames.org/neighbours?geonameId=%@&username=%@", self.geonameID, kUsername];
+    
+    NSURL *url = [NSURL URLWithString:URLString];
+    
+    // Download the data.
+    [AppDelegate downloadDataFromURL:url withCompletionHandler:^(NSData *data) {
+        // Make sure that there is data.
+        if (data != nil) {
+            
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning

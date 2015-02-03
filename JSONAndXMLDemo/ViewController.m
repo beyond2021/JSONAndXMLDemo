@@ -70,11 +70,14 @@ NSString *const kUsername = @"beyond2021";
     // Dispose of any resources that can be recreated.
 }
 
+//TRhis ia called before the next viewController gets loaded
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
+    if ([segue.identifier isEqualToString:@"idSegueNeighbours"]) {
+        NeighboursViewController *neighboursViewController = [segue destinationViewController];
+        neighboursViewController.geonameID = [self.countryDetailsDictionary objectForKey:@"geonameId"]; //Having this property set, we are able to proceed to our work
+    }
 }
-
 
 #pragma mark - UITextFieldDelegate method implementation
 
@@ -320,5 +323,9 @@ NSString *const kUsername = @"beyond2021";
     
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
+
+
+
+
 
 @end

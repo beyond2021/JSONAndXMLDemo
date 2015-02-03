@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		22E1326D1A8024E1004FE655 /* KeevinsDowloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E1326C1A8024E1004FE655 /* KeevinsDowloader.m */; };
+		22E132711A802D3B004FE655 /* KeevinsJSONParse.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E132701A802D3B004FE655 /* KeevinsJSONParse.m */; };
 		C0F55E841981604F0072DAE6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0F55E831981604F0072DAE6 /* Foundation.framework */; };
 		C0F55E861981604F0072DAE6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0F55E851981604F0072DAE6 /* CoreGraphics.framework */; };
 		C0F55E881981604F0072DAE6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0F55E871981604F0072DAE6 /* UIKit.framework */; };
@@ -40,6 +41,8 @@
 /* Begin PBXFileReference section */
 		22E1326B1A8024E1004FE655 /* KeevinsDowloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeevinsDowloader.h; sourceTree = "<group>"; };
 		22E1326C1A8024E1004FE655 /* KeevinsDowloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeevinsDowloader.m; sourceTree = "<group>"; };
+		22E1326F1A802D3B004FE655 /* KeevinsJSONParse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeevinsJSONParse.h; sourceTree = "<group>"; };
+		22E132701A802D3B004FE655 /* KeevinsJSONParse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeevinsJSONParse.m; sourceTree = "<group>"; };
 		C0F55E801981604F0072DAE6 /* JSONAndXMLDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JSONAndXMLDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0F55E831981604F0072DAE6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C0F55E851981604F0072DAE6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -98,9 +101,19 @@
 			name = Downloader;
 			sourceTree = "<group>";
 		};
+		22E1326E1A802CD9004FE655 /* JSON Parser */ = {
+			isa = PBXGroup;
+			children = (
+				22E1326F1A802D3B004FE655 /* KeevinsJSONParse.h */,
+				22E132701A802D3B004FE655 /* KeevinsJSONParse.m */,
+			);
+			name = "JSON Parser";
+			sourceTree = "<group>";
+		};
 		C0F55E771981604F0072DAE6 = {
 			isa = PBXGroup;
 			children = (
+				22E1326E1A802CD9004FE655 /* JSON Parser */,
 				22E1326A1A8024A8004FE655 /* Downloader */,
 				C0F55E891981604F0072DAE6 /* JSONAndXMLDemo */,
 				C0F55EA81981604F0072DAE6 /* JSONAndXMLDemoTests */,
@@ -280,6 +293,7 @@
 				C0F55E941981604F0072DAE6 /* AppDelegate.m in Sources */,
 				C0F55EBA198161CB0072DAE6 /* NeighboursViewController.m in Sources */,
 				C0F55E901981604F0072DAE6 /* main.m in Sources */,
+				22E132711A802D3B004FE655 /* KeevinsJSONParse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

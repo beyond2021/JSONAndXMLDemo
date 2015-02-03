@@ -9,7 +9,9 @@
 #import "ViewController.h"
 #import "AppDelegate.h"
 #import "NeighboursViewController.h"
+#import "KeevinsDowloader.h"
 
+NSString *const kUsername = @"beyond2021";
 
 @interface ViewController ()
 
@@ -21,6 +23,7 @@
 
 @property (nonatomic, strong) NSDictionary *countryDetailsDictionary;
 
+-(void)getCountryInfo;
 @end
 
 @implementation ViewController
@@ -90,6 +93,8 @@
     if (index != -1) {
         // Get the two-letter country code from the arrCountryCodes array.
         self.countryCode = [self.arrCountryCodes objectAtIndex:index];
+        
+        [self getCountryInfo];
     }
     else{
         // If the country was not found then show an alert view displaying a relevant message.
@@ -100,6 +105,60 @@
     [self.txtCountry resignFirstResponder];
     
     return YES;
+}
+
+#pragma mark - getting the data
+
+-(void)getCountryInfo{
+    // Prepare the URL that we'll get the country info data from.
+    NSString *URLString = [NSString stringWithFormat:@"http://api.geonames.org/countryInfoJSON?username=%@&country=%@", kUsername, self.countryCode];
+    NSURL *url = [NSURL URLWithString:URLString];
+    
+    
+    /*
+    [AppDelegate downloadDataFromURL:url withCompletionHandler:^(NSData *data) {
+        // Check if any data returned.
+        if (data != nil) {
+            
+        }
+    }];
+     */
+    
+    [KeevinsDowloader downloadDataFromURL:url withCompletionHandler:^(NSData *data) {
+        // Check if any data returned.
+        if (data != nil) {
+            //Notice that is always necessary to check if the returned data is other than nil. In case of error, no data will exist and the data object will be nil, so be careful.
+            /*
+             For first time, we are about to use the NSJSONSerialization class in order to convert the fetched JSON data into a Foundation object, so we can handle it. Usually, a JSON converted object matches either to a NSArray object, or to a NSDictionary object. In the most cases you can know and tell what object the JSON will be converted to, as in almost every app you can find out the form of the JSON data you’ll fetch. In the rare cases you don’t know how the JSON data is formed and what Foundation object to expect after the conversion, see right next how to determine this.
+             */
+            
+             NSError *error;
+           NSLog(@"%@", [[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error] class]);
+            
+            
+            //First, we’ll convert the returned JSON data into a NSDictionary object
+            //Initially, we convert the JSON data to the returnedDict dictionary.
+            NSMutableDictionary *returnedDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+            
+            //Then, we will check if any error has occurred during conversion,
+            if (error != nil) {
+                //
+                NSLog(@"%@", [error localizedDescription]);
+            }
+            else{
+                //and if not we’ll extract the array from that dictionary using the key geonames. Finally, we’ll extract the second, desired dictionary from the first index of that array
+                //Next, we get the array and the dictionary of the first index of that array, and we assign it to the countryDetailsDictionary property.
+                self.countryDetailsDictionary = [[returnedDict objectForKey:@"geonames"] objectAtIndex:0];
+                NSLog(@"%@", self.countryDetailsDictionary);
+            }
+            
+            
+            
+        }
+    }];
+
+    
+    
 }
 
 

@@ -257,6 +257,57 @@ NSString *const kUsername = @"beyond2021";
 
 - (IBAction)sendJSON:(id)sender {
     
+    // Create a dictionary containing only the values we care about.
+    NSDictionary *dictionary = @{@"countryName": [self.countryDetailsDictionary objectForKey:@"countryName"],
+                                 @"countryCode": [self.countryDetailsDictionary objectForKey:@"countryCode"],
+                                 @"capital": [self.countryDetailsDictionary objectForKey:@"capital"],
+                                 @"continent": [self.countryDetailsDictionary objectForKey:@"continentName"],
+                                 @"population": [self.countryDetailsDictionary objectForKey:@"population"],
+                                 @"areaInSqKm": [self.countryDetailsDictionary objectForKey:@"areaInSqKm"],
+                                 @"currency": [self.countryDetailsDictionary objectForKey:@"currencyCode"],
+                                 @"languages": [self.countryDetailsDictionary objectForKey:@"languages"]
+                                 };
+    // Convert the dictionary into a JSON data object.
+    NSData *JSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+    /*
+     The above does all the magical work. However, we have a problem here: The converted object is a NSData object, and if you try to display its contents you’ll get something like that:
+     1
+     
+     <7b0a2020 22636f75 6e747279 436f6465 22203a20 22475222 2c0a2020 226c616e 67756167 65732220 3a202265 6c2d4752 2c656e2c 6672222c 0a202022 636f756e 7472794e 616d6522 203a2022 47726565 6365222c 0a202022 636f6e74 696e656e 7422203a 20224575 726f7065 222c0a20 20226375 7272656e 63792220 3a202245 5552222c 0a202022 706f7075 6c617469 6f6e2220 3a202231 31303030 30303022 2c0a2020 22617265 61496e53 714b6d22 203a2022 31333139 34302e30 222c0a20 20226361 70697461 6c22203a 20224174 68656e73 220a7d>     */
+    
+    // Convert the JSON data into a string.
+    NSString *JSONString = [[NSString alloc] initWithData:JSONData encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"%@",JSONString);
+    /*
+     As you see, we simply convert the NSData object into a NSString object using the above way. This is safe to do, as we already know that a JSON value is a string value. If we use a NSLog command at this point, here’s what we’ll see on the console:
+     
+     {
+     "countryCode" : "GR",
+     "languages" : "el-GR,en,fr",
+     "countryName" : "Greece",
+     "continent" : "Europe",
+     "currency" : "EUR",
+     "population" : "11000000",
+     "areaInSqKm" : "131940.0",
+     "capital" : "Athens"
+     }
+     
+     */
+    
+    
+    if ([MFMailComposeViewController canSendMail]) {
+        MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
+        mailViewController.mailComposeDelegate = self;
+        
+        [mailViewController setSubject:@"Country JSON"];
+        
+        [mailViewController setMessageBody:JSONString isHTML:NO];
+        
+        [self presentViewController:mailViewController animated:YES completion:nil];
+    }
+    
+    
 }
 
 

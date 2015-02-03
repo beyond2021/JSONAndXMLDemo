@@ -22,7 +22,7 @@
 
 @property (nonatomic, strong) NSXMLParser *xmlParser;
 
-@property (nonatomic, strong) NSMutableArray *arrNeighboursData;
+@property (nonatomic, strong) NSMutableArray *arrNeighboursData; //the datasource of the table view is going to be the arrNeighboursData array
 
 @property (nonatomic, strong) NSMutableDictionary *dictTempDataStorage;
 
@@ -106,7 +106,8 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 0;
+   // return 0;
+    return self.arrNeighboursData.count;
 }
 
 
@@ -117,6 +118,9 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    // As you see, in the text label of the cell we assign the name of the country, and we set the toponym name to the subtitle label.    
+    cell.textLabel.text = [[self.arrNeighboursData objectAtIndex:indexPath.row] objectForKey:@"name"];
+    cell.detailTextLabel.text = [[self.arrNeighboursData objectAtIndex:indexPath.row] objectForKey:@"toponymName"];
     
     
     return cell;
@@ -132,6 +136,7 @@
     // Initialize the neighbours data array.
     
     //this delegate method signals the beginning of the parsing, so we initialize our array
+    //the datasource of the table view is going to be the arrNeighboursData array
     self.arrNeighboursData = [[NSMutableArray alloc] init];
 }
 
@@ -166,6 +171,7 @@
     
     if ([elementName isEqualToString:@"geoname"]) {
         // If the closing element equals to "geoname" then the all the data of a neighbour country has been parsed and the dictionary should be added to the neighbours data array.
+        // the datasource of the table view is going to be the arrNeighboursData array
         [self.arrNeighboursData addObject:[[NSDictionary alloc] initWithDictionary:self.dictTempDataStorage]];
     }
     else if ([elementName isEqualToString:@"name"]){
